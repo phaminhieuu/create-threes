@@ -1,0 +1,25 @@
+{
+  "name": "threes-cli",
+  "module": "src/index.ts",
+  "bin": {
+    "create threes": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/validate-npm-package-name": "^4.0.2",
+    "@types/yargs": "^17.0.33"
+  },
+  "peerDependencies": {
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^6.0.1",
+    "chalk": "^5.3.0",
+    "cli-spinners": "^3.2.0",
+    "commander": "^12.1.0",
+    "create-vite": "^5.5.2",
+    "ora": "^8.1.0",
+    "validate-npm-package-name": "^6.0.0",
+    "yargs": "^17.7.2"
+  }
+}
