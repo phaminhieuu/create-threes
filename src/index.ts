@@ -1,139 +1,54 @@
-#! /usr/bin/env bun
+import { spinner, intro, note, outro } from "@clack/prompts";
 
-import { program } from "commander";
-import { checkbox, input, select } from "@inquirer/prompts";
-import {
-  isEmptyDirectory,
-  isExistingDirectory,
-  isValidPackageName,
-  removeDirectory,
-  runCommand,
-} from "./lib/utils";
-import chalk from "chalk";
-import cliSpinners from "cli-spinners";
-import ora from "ora";
+import color from "picocolors";
+import { getContext } from "./lib/context";
+import { projectName } from "./lib/actions/project-name";
+import { framework } from "./lib/actions/framework";
+import { template } from "./lib/actions/template";
+import { dependencies } from "./lib/actions/dependencies";
+import { typescript } from "./lib/actions/typescript";
+import { git } from "./lib/actions/git";
 
-program.version("0.0.1").description("CLI for creating threejs projects");
+async function main() {
+  console.clear();
 
-program.argument("[name]").action(async (name) => {
-  let projectName = name;
+  const cleanArgv = process.argv.slice(2).filter((arg) => arg !== "--");
+  intro(`${color.bgCyan(color.black(" create-threes "))}`);
 
-  if (!projectName) {
-    projectName = await input({
-      message: "Project name:",
-      default: "my-project",
-    });
+  // Get the project context arguments
+  const ctx = await getContext(cleanArgv);
+
+  // Run the steps
+  const steps = [
+    projectName,
+    framework,
+    template,
+    typescript,
+    dependencies,
+    git,
+  ];
+
+  for (const step of steps) {
+    await step(ctx);
   }
 
-  if (isExistingDirectory(projectName) && !isEmptyDirectory(projectName)) {
-    const choice = await select({
-      message: `Directory "${projectName}" already exists. Please choose how to proceed:`,
-      choices: [
-        {
-          name: "Remove existing files and continue",
-          value: "remove",
-        },
-        {
-          name: "Cancel operation",
-          value: "cancel",
-        },
-      ],
-    });
-
-    if (choice === "cancel") process.exit(1);
-
-    if (choice === "remove") {
-      removeDirectory(projectName);
-    }
+  // Run the tasks
+  for (const task of ctx.tasks) {
+    const s = spinner();
+    s.start(task.start);
+    await task.run();
+    s.stop(task.end);
   }
 
-  if (!isValidPackageName(projectName)) {
-    console.error(chalk.red(" Invalid package.json name"));
-    process.exit(1);
-  }
+  const { cwd, install, packageManager } = ctx;
 
-  console.log();
+  let nextSteps = `cd ${cwd}\n${install ? "" : `${packageManager} install\n`}${packageManager} dev`;
 
-  const framework = await select({
-    message: "Select a framework:",
-    choices: [
-      {
-        name: "Vanilla",
-        value: "vanilla",
-        short: "vanilla",
-      },
-      {
-        name: "React",
-        value: "react",
-      },
-    ],
-  });
+  note(nextSteps, "Next steps.");
 
-  const sample = await select({
-    message: "How would you like to start?",
-    choices: [
-      {
-        name: "Basic scene",
-        value: "basic",
-      },
-      {
-        name: "Shader",
-        value: "shader",
-      },
-      {
-        name: "Physics",
-        value: "physics",
-      },
-      {
-        name: "Postprocessing",
-        value: "postprocessing",
-      },
-      {
-        name: "Model with environment map",
-        value: "model",
-      },
-      {
-        name: "Empty",
-        value: "empty",
-      },
-    ],
-  });
+  outro(`Problems? ${color.underline(color.cyan("https://github"))}`);
 
-  const isTs = await select({
-    message: "Would you like to use TypeScript?",
-    choices: [
-      {
-        name: "Yes",
-        value: true,
-      },
-      {
-        name: "No",
-        value: false,
-      },
-    ],
-  });
+  process.exit(0);
+}
 
-  let command = `npm create vite@latest ${projectName} --`;
-
-  switch (framework) {
-    case "vanilla":
-      if (isTs) command += " --template vanilla-ts";
-      else command += " --template vanilla";
-      break;
-    case "react":
-      if (isTs) command += " --template react-ts";
-      else command += " --template react";
-      break;
-  }
-
-  const spinner = ora({
-    text: "Creating project...",
-    spinner: cliSpinners.material,
-  }).start();
-
-  await runCommand(command);
-
-  spinner.succeed("Project created successfully");
-});
-
-program.parse(process.argv);
+main().catch(console.error);
