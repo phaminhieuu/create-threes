@@ -2,7 +2,7 @@
   "name": "threes-cli",
   "module": "src/index.ts",
   "bin": {
-    "threes": "src/index.ts"
+    "create-threes": "src/index.ts"
   },
   "scripts": {
     "dev": "bun src/index.ts",
