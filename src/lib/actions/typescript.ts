@@ -2,7 +2,7 @@ import { confirm, log } from "@clack/prompts";
 import type { Context } from "../context";
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "bun";
+import { fileURLToPath } from "node:url";
 import { checkCancel } from "../shared";
 
 export async function typescript(ctx: Context) {
@@ -28,11 +28,13 @@ export async function typescript(ctx: Context) {
 async function copyTemplate(ctx: Context) {
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
-    "../../../templates",
+    "../../templates",
     ctx.framework!,
     ctx.typescript ? "ts" : "js",
     ctx.template!,
   );
+
+  console.log(templateDir);
 
   // Create directory
   fs.mkdirSync(ctx.cwd, { recursive: true });
