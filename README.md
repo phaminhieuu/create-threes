@@ -47,3 +47,5 @@ May be provided in place of prompts
 | `--typescript` (`-ts`)                | Using typescript.                                      |
 | `--install` (`-g`)                    | Install dependencies.                                  |
 | `--git` (`-g`)                        | Initialize git repo.                                   |
+
+[templates]: https://github.com/phaminhieuu/create-threes/templates
