@@ -1,6 +1,6 @@
 {
   "name": "create-threes",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "Minh Hieu",
   "license": "MIT",
   "type": "module",
@@ -16,7 +16,9 @@
     "create-threes": "./create-threes.mjs"
   },
   "scripts": {
-    "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js"
+    "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run build"
   },
   "files": [
     "dist",
