@@ -1,22 +1,26 @@
 {
   "name": "create-threes",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Minh Hieu",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/phaminhieuu/threes-cli"
   },
-  "main": "index.js",
+  "main": "./create-threes.mjs",
+  "exports": {
+    ".": "./create-threes.mjs"
+  },
   "bin": {
-    "create-threes": "index.js"
+    "create-threes": "./create-threes.mjs"
   },
   "scripts": {
     "build": "bun build --target=node ./src/index.ts --outfile=dist/index.js"
   },
   "files": [
     "dist",
-    "index.js"
+    "create-threes.mjs",
+    "templates"
   ],
   "devDependencies": {
     "@types/bun": "latest"
