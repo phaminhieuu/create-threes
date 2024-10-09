@@ -2,7 +2,7 @@ import { confirm, log } from "@clack/prompts";
 import type { Context } from "../context";
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath } from "url";
 import { checkCancel } from "../shared";
 
 export async function typescript(ctx: Context) {
@@ -33,8 +33,6 @@ async function copyTemplate(ctx: Context) {
     ctx.typescript ? "ts" : "js",
     ctx.template!,
   );
-
-  console.log(templateDir);
 
   // Create directory
   fs.mkdirSync(ctx.cwd, { recursive: true });

@@ -1,8 +1,9 @@
 {
   "name": "create-threes",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "Minh Hieu",
   "license": "MIT",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/phaminhieuu/threes-cli"

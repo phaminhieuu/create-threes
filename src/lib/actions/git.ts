@@ -11,7 +11,7 @@ export async function git(ctx: Context) {
     return;
   }
 
-  if (ctx.git !== undefined) {
+  if (ctx.git === undefined) {
     const git = await confirm({
       message: "Initialize a git repository?",
       initialValue: true,
