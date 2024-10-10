@@ -20,6 +20,12 @@ yarn create threes
 pnpm create threes
 ```
 
+**With Bun**
+
+```bash
+bun create threes
+```
+
 `create-threes` automatically runs in _interactive_ mode, but you can also specify your project name and template with command line arguments.
 
 ```bash
@@ -31,6 +37,9 @@ yarn create threes threes-project --template basic
 
 # pnpm
 pnpm create threes threes-project --template basic
+
+# bun
+bun create threes threes-project --template basic
 ```
 
 [Check out the full list][templates] of example templates, available on GitHub.
@@ -48,4 +57,4 @@ May be provided in place of prompts
 | `--install` (`-g`)                    | Install dependencies.                                  |
 | `--git` (`-g`)                        | Initialize git repo.                                   |
 
-[templates]: https://github.com/phaminhieuu/create-threes/templates
+[templates]: https://github.com/phaminhieuu/create-threes/tree/main/templates

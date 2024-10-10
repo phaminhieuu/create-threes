@@ -1,12 +1,15 @@
 {
   "name": "create-threes",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "author": "Minh Hieu",
   "license": "MIT",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phaminhieuu/threes-cli"
+    "url": "https://github.com/phaminhieuu/create-threes"
+  },
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
   },
   "main": "./create-threes.mjs",
   "exports": {
@@ -35,6 +38,7 @@
     "@clack/prompts": "^0.7.0",
     "arg": "^5.0.2",
     "chalk": "^5.3.0",
-    "picocolors": "^1.1.0"
+    "picocolors": "^1.1.0",
+    "three": "^0.169.0"
   }
 }
