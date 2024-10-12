@@ -1,10 +1,10 @@
-import "./style.css";
+import "@/styles/index.css";
 
 import * as THREE from "three";
-import camera from "@/core/camera";
-import { fpsGraph, gui } from "@/core/gui";
-import { renderer, scene } from "@/core/renderer";
-import { controls } from "@/core/orbit-control";
+import camera from "@/webgl/camera";
+import { gui, stats } from "@/webgl/gui";
+import { renderer, scene } from "@/webgl/renderer";
+import { controls } from "@/webgl/orbit-control";
 
 // Lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
@@ -13,18 +13,25 @@ scene.add(ambientLight);
 const directionalLight = new THREE.DirectionalLight("#ffffff", 1);
 directionalLight.castShadow = true;
 directionalLight.shadow.mapSize.set(1024, 1024);
-directionalLight.shadow.camera.far = 15;
+directionalLight.shadow.camera.far = 20;
 directionalLight.shadow.normalBias = 0.05;
-directionalLight.position.set(0.25, 2, 2.25);
+directionalLight.position.set(-2, 5, 4);
+
+// Light Helper
+const directionalLightHelper = new THREE.DirectionalLightHelper(
+  directionalLight,
+  3,
+);
 
 scene.add(directionalLight);
+scene.add(directionalLightHelper);
 
 const box = new THREE.Mesh(
-  new THREE.BoxGeometry(1.5, 1.5, 1.5),
+  new THREE.BoxGeometry(2, 2, 2),
   new THREE.MeshNormalMaterial(),
 );
 
-box.position.set(0, 2, 0);
+box.position.set(0, 3, 0);
 box.castShadow = true;
 scene.add(box);
 
@@ -37,15 +44,15 @@ Object.keys(directionalLight.position).forEach((key) => {
     directionalLight.position,
     key as keyof THREE.Vector3,
     {
-      min: -100,
-      max: 100,
-      step: 1,
+      min: -10,
+      max: 10,
+      step: 0.25,
     },
   );
 });
 
 const plane = new THREE.Mesh(
-  new THREE.PlaneGeometry(10, 10, 10, 10),
+  new THREE.PlaneGeometry(12, 12, 12, 12),
   new THREE.MeshToonMaterial({ color: "#444" }),
 );
 
@@ -58,15 +65,14 @@ const clock = new THREE.Clock();
 const animate = () => {
   const elapsedTime = clock.getElapsedTime();
 
-  fpsGraph.begin();
-
+  // Rotate the box
   const r = elapsedTime * 0.1;
   box.rotation.set(r, r, r);
 
   controls.update();
+  stats.update();
   renderer.render(scene, camera);
 
-  fpsGraph.end();
   requestAnimationFrame(animate);
 };
 

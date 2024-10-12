@@ -1,12 +1,11 @@
 import {
   ACESFilmicToneMapping,
   AxesHelper,
-  Color,
   PCFShadowMap,
   Scene,
   WebGLRenderer,
 } from "three";
-import { gui } from "./gui";
+import { gui, stats } from "./gui";
 
 export const sizes = {
   width: window.innerWidth,
@@ -15,7 +14,8 @@ export const sizes = {
 
 // Scene
 export const scene = new Scene();
-scene.background = new Color("#333");
+
+document.body.appendChild(stats.dom);
 
 const canvas: HTMLElement = document.querySelector("#webgl") as HTMLElement;
 
@@ -41,6 +41,9 @@ gui.addBinding(axesHelper, "visible", {
   label: "AxesHelper",
 });
 
+// Stats
+stats.init(renderer);
+
 function updateRenderer() {
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // To avoid performance problems on devices with higher pixel ratio
@@ -57,4 +60,5 @@ updateRenderer();
 export default {
   renderer,
   gui,
+  stats,
 };

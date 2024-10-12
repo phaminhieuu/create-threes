@@ -1,6 +1,7 @@
 {
   "name": "create-threes",
-  "version": "0.0.11",
+  "version": "0.1.12",
+  "private": true,
   "author": "Minh Hieu",
   "license": "MIT",
   "type": "module",
