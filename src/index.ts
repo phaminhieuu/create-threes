@@ -1,4 +1,4 @@
-import { spinner, intro, note, outro } from "@clack/prompts";
+import { spinner, intro, note, outro, log } from "@clack/prompts";
 
 import color from "picocolors";
 import { getContext } from "./lib/context";
@@ -36,7 +36,14 @@ async function main() {
   for (const task of ctx.tasks) {
     const s = spinner();
     s.start(task.start);
-    await task.run();
+
+    try {
+      await task.run();
+    } catch (error: any) {
+      s.stop();
+      log.error(error);
+      process.exit(1);
+    }
     s.stop(task.end);
   }
 
