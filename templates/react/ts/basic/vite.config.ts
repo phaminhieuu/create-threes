@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import "vite";
+import glsl from "vite-plugin-glsl";
 import path from "path";
 
 // https://vitejs.dev/config/
@@ -11,7 +11,7 @@ export default defineConfig({
     host: "0.0.0.0",
   },
   build: {
-    outDir: "../dist",
+    outDir: "../../dist",
     emptyOutDir: true,
     sourcemap: true,
   },
@@ -20,5 +20,5 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
-  plugins: [react()],
+  plugins: [react(), glsl()],
 });

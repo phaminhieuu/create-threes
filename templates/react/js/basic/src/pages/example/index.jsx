@@ -1,29 +1,37 @@
+import { useHelper } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useControls } from "leva";
 import { useRef } from "react";
-import { Mesh, Color } from "three";
+import { Color, DirectionalLightHelper } from "three";
 
-export default function Scene() {
-  const boxRef = useRef<Mesh>(null);
+export default function Example() {
+  const boxRef = useRef();
+  const lightRef = useRef();
+
+  useHelper(lightRef, DirectionalLightHelper, 3);
+
+  const { axesHelper } = useControls({
+    axesHelper: true,
+  });
 
   const { x, y, z } = useControls("Directional Light", {
     x: {
-      value: 0.25,
-      min: -100,
-      max: 100,
-      step: 1,
+      value: -2,
+      min: -10,
+      max: 10,
+      step: 0.25,
     },
     y: {
-      value: 2,
-      min: -100,
-      max: 100,
-      step: 1,
+      value: 5,
+      min: -10,
+      max: 10,
+      step: 0.25,
     },
     z: {
-      value: 2.25,
-      min: -100,
-      max: 100,
-      step: 1,
+      value: 4,
+      min: -10,
+      max: 10,
+      step: 0.25,
     },
   });
 
@@ -37,24 +45,26 @@ export default function Scene() {
 
   return (
     <>
+      {axesHelper && <axesHelper />}
       <ambientLight intensity={0.1} />
       <directionalLight
+        ref={lightRef}
         intensity={1}
         color="#ffffff"
         castShadow
         shadow-mapSize={[1024, 1024]}
-        shadow-camera-far={15}
+        shadow-camera-far={20}
         shadow-normalBias={0.05}
         position={[x, y, z]}
       />
 
-      <mesh ref={boxRef} position={[0, 2, 0]} castShadow>
-        <boxGeometry args={[1.5, 1.5, 1.5]} />
+      <mesh ref={boxRef} position-y={3} castShadow>
+        <boxGeometry args={[2, 2, 2]} />
         <meshNormalMaterial />
       </mesh>
 
       <mesh rotation-x={-Math.PI / 2} receiveShadow>
-        <planeGeometry args={[10, 10, 10, 10]} />
+        <planeGeometry args={[12, 12, 12, 12]} />
         <meshToonMaterial color={new Color("#444")} />
       </mesh>
     </>
