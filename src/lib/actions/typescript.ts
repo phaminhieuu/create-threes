@@ -2,8 +2,10 @@ import { confirm, log } from "@clack/prompts";
 import type { Context } from "../context";
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url";
 import { checkCancel } from "../shared";
+import { downloadTemplate } from "giget";
+
+const auth = "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";
 
 export async function typescript(ctx: Context) {
   if (ctx.typescript === undefined) {
@@ -11,6 +13,7 @@ export async function typescript(ctx: Context) {
       message: "Would you like to use TypeScript?",
       initialValue: true,
     });
+
     checkCancel(ts);
 
     ctx.typescript = ts as boolean;
@@ -26,41 +29,18 @@ export async function typescript(ctx: Context) {
 }
 
 async function copyTemplate(ctx: Context) {
-  const templateDir = path.resolve(
-    fileURLToPath(import.meta.url),
-    "../../templates",
-    ctx.framework!,
-    ctx.typescript ? "ts" : "js",
-    ctx.template!,
-  );
+  const templateDir = `github:phaminhieuu/create-threes/templates/${ctx.framework}/${ctx.typescript ? "ts" : "js"
+    }/${ctx.template}`;
 
-  // Create directory
-  fs.mkdirSync(ctx.cwd, { recursive: true });
-
-  // Copy template files to project directory
-  copy(templateDir, ctx.cwd);
+  await downloadTemplate(templateDir, {
+    force: true,
+    cwd: ctx.cwd,
+    dir: ".",
+    auth,
+  });
 
   // Update package.json name
   await update(ctx);
-}
-
-// Recursively copy files from src to dest
-function copy(src: string, dest: string) {
-  const stat = fs.statSync(src);
-  if (stat.isDirectory()) {
-    copyDir(src, dest);
-  } else {
-    fs.copyFileSync(src, dest);
-  }
-}
-
-function copyDir(srcDir: string, destDir: string) {
-  fs.mkdirSync(destDir, { recursive: true });
-  for (const file of fs.readdirSync(srcDir)) {
-    const srcFile = path.resolve(srcDir, file);
-    const destFile = path.resolve(destDir, file);
-    copy(srcFile, destFile);
-  }
 }
 
 async function update(ctx: Context) {
