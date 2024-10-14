@@ -39,12 +39,11 @@ async function main() {
 
     try {
       await task.run();
-    } catch (error: any) {
-      s.stop();
-      log.error(error);
+      s.stop(task.end);
+    } catch (e: any) {
+      log.error(e.message);
       process.exit(1);
     }
-    s.stop(task.end);
   }
 
   const { cwd, install, packageManager } = ctx;

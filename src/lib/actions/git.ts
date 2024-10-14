@@ -1,8 +1,8 @@
 import { confirm, log } from "@clack/prompts";
 import type { Context } from "../context";
 import { shell } from "../shell";
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 import { checkCancel } from "../shared";
 
 export async function git(ctx: Context) {

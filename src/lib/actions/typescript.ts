@@ -1,9 +1,9 @@
 import { confirm, log } from "@clack/prompts";
 import type { Context } from "../context";
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 import { checkCancel } from "../shared";
-import { downloadTemplate } from "giget";
+import { downloadTemplate } from "@bluwy/giget-core";
 
 const auth = "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";
 
@@ -29,15 +29,33 @@ export async function typescript(ctx: Context) {
 }
 
 async function copyTemplate(ctx: Context) {
-  const templateDir = `github:phaminhieuu/create-threes/templates/${ctx.framework}/${ctx.typescript ? "ts" : "js"
-    }/${ctx.template}`;
+  // const templateDir = `github:phaminhieuu/create-threes/templates/${ctx.framework}/${ctx.typescript ? "ts" : "js"
+  //   }/${ctx.template}`;
 
-  await downloadTemplate(templateDir, {
-    force: true,
-    cwd: ctx.cwd,
-    dir: ".",
-    auth,
-  });
+  const templateDir = "github:phaminhieuu/pmh-showcase";
+  try {
+    await downloadTemplate(templateDir, {
+      force: true,
+      cwd: ctx.cwd,
+      dir: ".",
+      providerOptions: {
+        auth,
+      },
+    });
+  } catch (e: any) {
+    if (e.message?.includes("404")) {
+      throw new Error("Template dose not exist");
+    }
+
+    if (e.message) log.error(e.message);
+
+    if ("cause" in e) {
+      log.error(e.cause);
+      if ("cause" in e.cause) log.error(e.cause.cause);
+    }
+
+    throw new Error("Failed to download template");
+  }
 
   // Update package.json name
   await update(ctx);

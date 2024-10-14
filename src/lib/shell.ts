@@ -1,8 +1,11 @@
-import type { ChildProcess, StdioOptions } from "child_process";
-import type { Readable } from "stream";
+import {
+  spawn,
+  type ChildProcess,
+  type StdioOptions,
+} from "node:child_process";
+import type { Readable } from "node:stream";
 
-import { spawn } from "child_process";
-import { text as textFromStream } from "stream/consumers";
+import { text as textFromStream } from "node:stream/consumers";
 
 export interface ExecOptions {
   cwd?: string | URL;

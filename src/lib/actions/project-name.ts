@@ -1,7 +1,7 @@
 import { log, text } from "@clack/prompts";
 import type { Context } from "../context";
 import { checkCancel, isEmpty, toValidName } from "../shared";
-import path from "path";
+import path from "node:path";
 import pc from "picocolors";
 
 export async function projectName(ctx: Context) {

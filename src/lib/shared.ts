@@ -1,5 +1,5 @@
 import { cancel, isCancel } from "@clack/prompts";
-import fs from "fs";
+import fs from "node:fs";
 
 export function isEmpty(dir: string) {
   if (!fs.existsSync(dir)) return true;
