@@ -48,11 +48,13 @@ async function main() {
 
   const { cwd, install, packageManager } = ctx;
 
-  let nextSteps = `cd ${cwd}\n${install ? "" : `${packageManager} install\n`}${packageManager} dev`;
+  let nextSteps = `cd ${cwd}\n${install ? "" : `${packageManager} install\n`}${packageManager} ${packageManager === "npm" && "run"} dev`;
 
   note(nextSteps, "Next steps.");
 
-  outro(`Problems? ${color.underline(color.cyan("https://github"))}`);
+  outro(
+    `Problems? ${color.underline(color.cyan("https://github.com/phaminhieuu/create-threes/issues"))}`,
+  );
 
   process.exit(0);
 }
