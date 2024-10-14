@@ -29,10 +29,9 @@ export async function typescript(ctx: Context) {
 }
 
 async function copyTemplate(ctx: Context) {
-  // const templateDir = `github:phaminhieuu/create-threes/templates/${ctx.framework}/${ctx.typescript ? "ts" : "js"
-  //   }/${ctx.template}`;
+  const templateDir = `github:phaminhieuu/create-threes/templates/${ctx.framework}/${ctx.typescript ? "ts" : "js"
+    }/${ctx.template}`;
 
-  const templateDir = "github:phaminhieuu/pmh-showcase";
   try {
     await downloadTemplate(templateDir, {
       force: true,
