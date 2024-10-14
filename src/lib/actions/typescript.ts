@@ -5,8 +5,6 @@ import fs from "node:fs";
 import { checkCancel } from "../shared";
 import { downloadTemplate } from "@bluwy/giget-core";
 
-const auth = "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";
-
 export async function typescript(ctx: Context) {
   if (ctx.typescript === undefined) {
     const ts = await confirm({
@@ -29,17 +27,13 @@ export async function typescript(ctx: Context) {
 }
 
 async function copyTemplate(ctx: Context) {
-  const templateDir = `github:phaminhieuu/create-threes/templates/${ctx.framework}/${ctx.typescript ? "ts" : "js"
-    }/${ctx.template}`;
+  const templateDir = `github:phaminhieuu/create-threes/templates/${ctx.framework}/${ctx.typescript ? "ts" : "js"}/${ctx.template}`;
 
   try {
     await downloadTemplate(templateDir, {
       force: true,
       cwd: ctx.cwd,
       dir: ".",
-      providerOptions: {
-        auth,
-      },
     });
   } catch (e: any) {
     if (e.message?.includes("404")) {
