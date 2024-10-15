@@ -48,7 +48,7 @@ async function main() {
 
   const { cwd, install, packageManager } = ctx;
 
-  let nextSteps = `cd ${cwd}\n${install ? "" : `${packageManager} install\n`}${packageManager} ${packageManager === "npm" && "run"} dev`;
+  let nextSteps = `cd ${cwd}\n${install ? "" : `${packageManager} install\n`}${packageManager} ${packageManager === "npm" ? "run" : null} dev`;
 
   note(nextSteps, "Next steps.");
 

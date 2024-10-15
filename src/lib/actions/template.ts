@@ -12,7 +12,7 @@ export async function template(ctx: Context) {
       options: [
         { value: "basic", label: "Basic scene" },
         // { value: "shader", label: "Shader glsl example" },
-        // { value: "physic", label: "Physic with Cannon.js" },
+        { value: "physics", label: "Physic example with Rapier" },
         // { value: "postprocessing", label: "Post-processing example" },
         // { value: "model", label: "Model with environment map" },
         // { value: "webgpu", label: "WebGPU with TSL" },
