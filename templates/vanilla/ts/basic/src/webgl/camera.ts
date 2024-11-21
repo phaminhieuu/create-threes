@@ -1,10 +1,8 @@
 import { PerspectiveCamera } from "three";
 import { scene, sizes } from "./renderer";
 
-const VERTICAL_FIELD_OF_VIEW = 45; // degrees 45 is the normal
-
 export const camera = new PerspectiveCamera(
-  VERTICAL_FIELD_OF_VIEW,
+  45,
   sizes.width / sizes.height,
 );
 
